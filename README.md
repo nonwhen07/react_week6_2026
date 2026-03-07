@@ -38,6 +38,11 @@ https://nonwhen07.github.io/react_week5_2026
 - 設計 Loading 狀態管理（Screen / Button）
 - 建立商品圖片 fallback 機制
 
+### Week 6 –
+
+- 將 API 呼叫抽離至 service layer
+- 將購物車計算邏輯抽離至 utility function
+
 ---
 
 ## 🧰 技術棧
@@ -80,74 +85,7 @@ npm install axios react react-dom react-router-dom react-icons react-hook-form b
 
 ## 🧠 架構設計思維
 
-### 1️⃣ 商品列表資料流程
-
-ProductsPage 負責：
-
-- 呼叫商品 API
-- 管理 products state
-- 控制頁面 loading 狀態
-
-資料取得後透過 map 渲染商品列表，
-保持資料流由上而下。
-
-### 2️⃣ Loading 狀態設計
-
-為避免整頁 loading 影響使用體驗，
-設計兩種 loading 狀態：
-
-- Screen Loading：頁面初始化載入商品
-- Button Loading：單一商品加入購物車
-
-透過物件型 state 記錄 loading 狀態：
-
-```js
-const [loadingItems, setLoadingItems] = useState({});
-```
-
-讓每個商品按鈕可以獨立顯示 loading。
-
-### 3️⃣ 加入購物車流程
-
-加入購物車流程：
-
-```md
-1. 點擊加入購物車
-2. 設定該商品 loading 狀態
-3. 呼叫 Cart API
-4. 完成後解除 loading
-```
-
-確保 UI 能即時回應使用者操作，
-並避免整頁重新渲染。
-
-### 4️⃣ API 串接策略
-
-前台商品頁使用 API：
-
-GET 商品列表
-
-```http
-GET /v2/api/{apiPath}/products
-```
-
-加入購物車
-
-```http
-POST /v2/api/{apiPath}/cart
-```
-
-所有請求統一透過 Axios 進行。
-
-### 5️⃣ 商品圖片防呆設計
-
-為避免 API 未提供圖片或圖片失效，
-設計 fallback 機制：
-
-- imageUrl 為空 → 顯示 placeholder 圖片
-- 圖片載入失敗 → 透過 onError 自動替換 no-image
-
-確保 UI 不會出現破圖。
+---
 
 ## ⚙ 本地開發
 
