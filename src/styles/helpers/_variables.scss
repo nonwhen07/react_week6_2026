@@ -1,0 +1,52 @@
+// Neutral
+$ui-neutral-950: #0a0a0a;
+$ui-neutral-800: #262626;
+$ui-neutral-600: #525252;
+$ui-neutral-500: #777777;
+$ui-neutral-400: #a3a3a3;
+$ui-neutral-200: #e5e5e5;
+$ui-neutral-100: #f0f0f0;
+$ui-neutral-50: #ffffff;
+
+// Blue
+$ui-blue-700: #2f6382;
+$ui-blue-500: #85bdde;
+$ui-blue-200: #c9e9f4;
+
+// Yellow / Orange（Accent）
+$ui-yellow-400: #fec631;
+$ui-orange-500: #f59004;
+
+// Brand
+$ui-color-primary: $ui-blue-500;
+$ui-color-primary-hover: $ui-blue-700;
+
+// Secondary（次行動）
+$ui-color-secondary: $ui-blue-200;
+
+// Status
+$ui-color-warning: $ui-yellow-400;
+$ui-color-danger: $ui-orange-500;
+
+// Navigation
+$ui-nav-link: $ui-neutral-800;
+$ui-nav-link-hover: $ui-blue-500;
+$ui-nav-link-active: $ui-blue-700;
+
+// Text
+$ui-text-primary: $ui-neutral-950;
+$ui-text-secondary: $ui-neutral-600;
+$ui-text-muted: $ui-neutral-400;
+
+// Background / Border
+$ui-bg-default: $ui-neutral-50;
+$ui-bg-subtle: $ui-neutral-100;
+$ui-border-default: $ui-neutral-200;
+
+// breakpoints 視覺分段點-mobile/pad/desktop/desktop-xl
+$breakpoints: (
+  mobile: 0,
+  pad: 576px,
+  desktop: 992px,
+  desktop-xl: 1200px,
+);

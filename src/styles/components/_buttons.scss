@@ -1,0 +1,178 @@
+@use '../helpers/variables' as *;
+@use 'sass:color';
+
+.btn-success {
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// .ui-btn {
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   min-height: 53px;        // 高度可以暫時 px（來自設計稿且一般大小和lg版高度一致都是含字體=53px）
+//   padding: 0.5rem 3rem;   // 8px / 48px → rem 轉換
+//   gap: 0.5rem;
+
+//   border-radius: 0.5rem;  // 8px → rem
+
+//   font-family: "Chiron GoRound TC", sans-serif;
+//   font-size: 1rem;        // ✔ 16px
+//   font-weight: 700;
+//   line-height: 1.5;
+//   letter-spacing: 0.02em;
+
+//   border: 1px solid transparent;
+//   cursor: pointer;
+// }
+
+/* --- 基礎樣式：定義所有按鈕共用的外觀，並以「中等 (MD)」作為預設值 --- */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 字體相關 */
+  font-family: 'Chiron GoRound TC', sans-serif;
+  font-size: 1rem; /* 16px */
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+
+  white-space: nowrap; // 防止按鈕內文字換行導致按鈕高度異常
+
+  /* 預設尺寸 (MD) - 直接依照設計稿標註 */
+  // min-height: 53px;
+  padding: 0.875rem 2rem; /* 左右 48px */
+  border-radius: 0.5rem; /* 8px */
+
+  /* 結構與互動 */
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+//因為設計稿沒有提供 sm/lg 大小的按鈕，所以暫時不做這個尺寸(僅提供自製尺寸參考)
+.ui-btn-sm {
+  font-size: 0.875rem; /* 14px */
+  // min-height: 38px;       /* 縮小高度 */
+  padding: 0.75rem 1.5rem; /* 縮小左右間距 */
+  border-radius: 0.25rem; /* 較小的圓角 4px */
+}
+
+/* 大按鈕 (Large)：字體大、間距寬、圓角大 */
+.ui-btn-lg {
+  font-size: 1.25rem; /* 20px */
+  // min-height: 68px;       /* 增加高度 */
+  padding: 1.25rem 3rem; /* 增加左右間距 */
+  border-radius: 0.75rem; /* 較大的圓角 12px */
+}
+
+.ui-btn-default {
+  background-color: $ui-text-muted;
+  color: $ui-bg-default;
+
+  &:hover {
+    background-color: color.scale($ui-text-secondary, $lightness: -8%);
+  }
+}
+
+.ui-btn-primary {
+  background-color: $ui-color-primary;
+  color: $ui-neutral-800;
+
+  &:hover {
+    background-color: $ui-color-primary-hover;
+    color: $ui-bg-default;
+  }
+}
+
+//因為設計稿沒有提供 secondary 按鈕(但是在select有類似的設計)，所以這個參考樣式先留著以備未來使用
+// .ui-btn-secondary {
+//   background-color: $ui-bg-default;
+//   color: $ui-neutral-800;
+
+//   &:hover {
+//     background-color: darken($ui-color-secondary, 8%);
+//   }
+// }
+
+.ui-btn-warning {
+  background-color: $ui-color-warning;
+  color: $ui-text-primary;
+
+  &:hover {
+    background-color: color.scale($ui-color-warning, $lightness: -8%);
+  }
+}
+
+//因為設計稿沒有提供 danger 按鈕(包括danger:hover色系)，所以這個參考樣式先留著以備未來使用
+// .ui-btn-danger {
+//   background-color:  $ui-color-danger;
+//   color: $ui-text-primary;
+
+//   &:hover {
+//     background-color: darken($ui-color-danger, 8%);
+//   }
+// }
+
+.ui-btn-gotop {
+  position: fixed;
+  right: 2.5rem;
+  bottom: 2.5rem;
+  z-index: 1200;
+  opacity: 0;
+  // 初始隱藏，滾動到一定距離後才顯
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: $ui-orange-500; // 你的主題色
+  color: $ui-blue-200;
+  border: 2px solid $ui-blue-200;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+  &.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  // hover 動畫
+  &:hover,
+  &:focus {
+    background: $ui-yellow-400;
+    color: $ui-blue-500;
+    border-color: $ui-blue-500;
+    box-shadow: 0 4px 18px rgba(188, 137, 93, 0.15);
+  }
+
+  // 平板、手機下位置更貼邊、不壓住內容
+  @media (max-width: 991.98px) {
+    right: 1.2rem;
+    bottom: 1.2rem;
+    width: 42px;
+    height: 42px;
+  }
+  @media (max-width: 575.98px) {
+    right: 0.8rem;
+    bottom: 0.8rem;
+    width: 38px;
+    height: 38px;
+  }
+}
