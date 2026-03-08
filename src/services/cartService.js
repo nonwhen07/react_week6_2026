@@ -1,23 +1,32 @@
-import axios from 'axios';
+import axios from '@/api/axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
-const API_PATH = import.meta.env.VITE_API_PATH;
+// 取得購物車列表
+export const getCart = async () => {
+  const res = await axios.get('/cart');
+  return res.data.data.carts;
+};
 
-const BASE_URL = `${API_URL}/v2/api/${API_PATH}`;
-
-export const addCartItem = (product_id, qty) => {
-  return axios.post(`${BASE_URL}/cart`, {
+// 加入購物車
+export const updateCartItem = async (cartId, productId, qty) => {
+  await axios.put(`/cart/${cartId}`, {
     data: {
-      product_id,
-      qty,
+      product_id: productId,
+      qty: Number(qty),
     },
   });
 };
 
-export const getCart = () => {
-  return axios.get(`${BASE_URL}/cart`);
+// 刪除購物車項目
+export const deleteCartItem = async (cartId) => {
+  await axios.delete(`/cart/${cartId}`);
 };
 
-export const deleteCartItem = (cartId) => {
-  return axios.delete(`${BASE_URL}/cart/${cartId}`);
+// 清空購物車
+export const clearCart = async () => {
+  await axios.delete('/carts');
+};
+
+// 結帳
+export const createOrder = async (orderData) => {
+  await axios.post('/order', orderData);
 };
