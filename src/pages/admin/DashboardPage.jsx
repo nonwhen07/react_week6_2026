@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 // import LoginPage from './pages/admin/LoginPage';
 // import ProductsPage from './pages/ProductsPage';
 
+import { checkAuth } from '@/services/authService';
+
 import PageLoader from '@/components/PageLoader';
 
 function DashboardPage() {
@@ -14,7 +16,7 @@ function DashboardPage() {
 
   // const [isAuth, setIsAuth] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-  const API_URL = import.meta.env.VITE_API_URL;
+  // const API_URL = import.meta.env.VITE_API_URL;
   // const API_PATH = import.meta.env.VITE_API_PATH;
 
   useEffect(() => {
@@ -30,7 +32,8 @@ function DashboardPage() {
       axios.defaults.headers.common['Authorization'] = token;
 
       try {
-        await axios.post(`${API_URL}/v2/api/user/check`);
+        // await axios.post(`${API_URL}/v2/api/user/check`);
+        await checkAuth;
         alert('登入成功，將導向後台首頁');
         // setIsAuth(true);
       } catch {

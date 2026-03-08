@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { getAdminProducts } from '@/services/productService';
+
 import Pagination from '@/components/Pagination';
 import ProductModal from '@/components/admin/ProductModal';
 import DeleteModal from '@/components/admin/DeleteModal';
@@ -50,9 +52,12 @@ function ProductsPage() {
 
   // 將try catch交給呼叫的函式處理包含loading，讓getProducts專注在抓資料，並且能在需要時重複使用
   const getProducts = async (page = 1) => {
-    const res = await axios.get(`${BASE_URL}/products?page=${page}`);
-    setProducts(res.data.products);
-    setPageInfo(res.data.pagination);
+    // const res = await axios.get(`${BASE_URL}/products?page=${page}`);
+    // setProducts(res.data.products);
+    // setPageInfo(res.data.pagination);
+    const { products, pagination } = await getAdminProducts(page);
+    setProducts(products);
+    setPageInfo(pagination);
   };
 
   // 產品列表分頁

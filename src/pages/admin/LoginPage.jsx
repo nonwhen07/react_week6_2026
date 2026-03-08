@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+
+import { login } from '@/services/authService';
 
 import PageLoader from '@/components/PageLoader';
 // import BtnLoader from '@/components/BtnLoader';
@@ -32,9 +34,10 @@ const LoginPage = () => {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/v2/admin/signin`, account);
+      // const res = await axios.post(`${API_URL}/v2/admin/signin`, account);
+      const res = await login(account);
 
-      const { token, expired } = res.data;
+      const { token, expired } = res;
 
       document.cookie = `hexToken_week6=${token}; path=/; expires=${new Date(
         expired,
