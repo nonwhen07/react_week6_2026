@@ -1,4 +1,4 @@
-import axios from '@/api/axios';
+import axios from '@/api/axiosInstance';
 
 // 取得購物車列表
 export const getCart = async () => {

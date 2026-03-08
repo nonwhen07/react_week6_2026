@@ -42,110 +42,36 @@ import LoginPage from '@/pages/admin/LoginPage';
 import DashboardPage from '@/pages/admin/DashboardPage';
 import AdminProductsPage from '@/pages/admin/ProductsPage';
 
-// 保留舊版寫法
-// const router = createHashRouter(
-//   [
-//     {
-//       path: '/',
-//       element: <FonterLayout />,
-//       children: [
-//         {
-//           index: true, // 首頁：/#/
-//           element: <HomePage />,
-//         },
-//         {
-//           // 產品列表
-//           path: 'products', // 建議改成複數，更符合慣例
-//           element: <ProductsPage />,
-//         },
-//         {
-//           // 產品細項，如果是多個參數寫法=> path: 'product/:product_id/:typemode'
-//           // 要注意參數順序重要：網址的參數順序必須與路由設定一致。
-//           path: 'product/:product_id',
-//           element: <ProductDetailPage />,
-//         },
-//         {
-//           path: 'cart',
-//           element: <CartPage />,
-//         },
-//       ],
-//     },
-//     // {
-//     //   // Login頁面
-//     //   path: '/login',
-//     //   element: <LoginPage />,
-//     // },
-//     // {
-//     //   // Admin - Dashboard頁面
-//     //   path: '/dashboard',
-//     //   element: <DashboardPage />,
-//     // },
-//     {
-//       // 404頁面
-//       path: '*',
-//       element: <NotFoundPage />,
-//     },
-//   ],
-//   //🚀 上 GitHub Pages 時再加回來
-//   // {
-//   //   basename: '/react_week6_2026', // GH Pages 必填，與 vite base 一致（不加結尾 /）
-//   //   // 或保持 basename: '/react_week6_2026/' 也可以，但一致性上建議不加
-//   // },
-// );
-
 // 優化寫法：先定義 routes 陣列，再傳給 createHashRouter，結構更清晰也方便上 GitHub Pages自動轉換網址時的維護。
 const routes = [
   {
     path: '/',
     element: <FonterLayout />,
     children: [
-      {
-        index: true, // 首頁：/#/
-        element: <HomePage />,
-      },
-      {
-        // 產品列表
-        path: 'products', // 建議改成複數，更符合慣例
-        element: <ProductsPage />,
-      },
-      {
-        // 產品細項，如果是多個參數寫法=> path: 'product/:product_id/:typemode'
-        // 要注意參數順序重要：網址的參數順序必須與路由設定一致。
-        path: 'product/:product_id',
-        element: <ProductDetailPage />,
-      },
-      {
-        path: 'cart',
-        element: <CartPage />,
-      },
+      { index: true, element: <HomePage /> },
+      { path: 'products', element: <ProductsPage /> },
+      { path: 'product/:product_id', element: <ProductDetailPage /> },
+      { path: 'cart', element: <CartPage /> },
     ],
   },
   {
-    // Login頁面
     path: '/login',
     element: <LoginPage />,
   },
+
   {
-    // Admin - Dashboard頁面
     path: '/admin',
     element: <AdminLayout />,
     children: [
       {
-        index: true, // 首頁：/#/admin/dashboard
-        path: '/dashboard',
+        //後台首頁 路由設定，index: true 代表 /admin 就會顯示 DashboardPage
+        index: true,
         element: <DashboardPage />,
       },
-      {
-        // 產品列表
-        path: 'products', // 首頁：/#/admin/products
-        element: <AdminProductsPage />,
-      },
-      // {
-      //   path: 'cart',
-      //   element: <CartPage />,
-      // },
+      { path: 'products', element: <AdminProductsPage /> },
     ],
   },
+
   {
     // 404頁面
     path: '*',
@@ -153,10 +79,7 @@ const routes = [
   },
 ];
 
-// const router = createHashRouter(routes, {
-//   basename: import.meta.env.BASE_URL,
-// });
 const router = createHashRouter(routes, {
-  basename: import.meta.env.PROD === 'production' ? '/react_week6_2026/' : '/',
+  basename: import.meta.env.PROD ? '/react_week6_2026/' : '/', // GH Pages 必填，與 vite base 一致（不加結尾 /）
 });
 export default router;

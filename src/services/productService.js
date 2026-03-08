@@ -1,4 +1,4 @@
-import axios from '@/api/axios';
+import axios from '@/api/axiosInstance';
 
 // 取得商品列表
 export const getProducts = async () => {
