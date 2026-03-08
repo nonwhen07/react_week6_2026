@@ -1,15 +1,14 @@
 import { Outlet } from 'react-router-dom';
-// import NavBar from '../components/backend/BackendHeader';
+// import NavBar from '@/components/admin/NavBar';
 
 export default function BackLayout() {
   return (
     <>
-      <div className="backend-layout">
-        {/* <NavBar /> */}
-        <main>
-          <Outlet />
-        </main>
-      </div>
+      {/* <NavBar /> */}
+      <main className="container py-4">
+        <Outlet />
+      </main>
+      {/* <Footer /> */}
     </>
   );
 }

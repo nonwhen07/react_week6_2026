@@ -10,7 +10,7 @@
 - 狀態與 UI 責任分離設計
 
 🔗 Live Demo  
-https://nonwhen07.github.io/react_week5_2026
+https://nonwhen07.github.io/react_week6_2026
 
 ---
 
