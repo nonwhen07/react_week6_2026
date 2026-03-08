@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
-import { getAdminProducts } from '@/services/productService';
+import {
+  getAdminProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from '@/services/productService';
 
 import Pagination from '@/components/Pagination';
 import ProductModal from '@/components/admin/ProductModal';
@@ -33,9 +38,9 @@ const DEFAULT_PRODUCT = {
 
 function ProductsPage() {
   // 環境變數
-  const API_URL = import.meta.env.VITE_API_URL;
-  const API_PATH = import.meta.env.VITE_API_PATH;
-  const BASE_URL = `${API_URL}/v2/api/${API_PATH}/admin`;
+  // const API_URL = import.meta.env.VITE_API_URL;
+  // const API_PATH = import.meta.env.VITE_API_PATH;
+  // const BASE_URL = `${API_URL}/v2/api/${API_PATH}/admin`;
   // 管理Modal元件開關
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -128,17 +133,19 @@ function ProductsPage() {
   };
 
   // 新增產品
-  const createProduct = async () => {
-    return axios.post(`${BASE_URL}/product`, {
-      data: formatProductData(tempProduct),
-    });
-  };
-  // 編輯產品
-  const updateProduct = async () => {
-    return axios.put(`${BASE_URL}/product/${tempProduct.id}`, {
-      data: formatProductData(tempProduct),
-    });
-  };
+  // const createProduct = async () => {
+  //   // return axios.post(`${BASE_URL}/product`, {
+  //   //   data: formatProductData(tempProduct),
+  //   // });
+  //   return await createProduct(tempProduct);
+  // };
+  // // 編輯產品
+  // const updateProduct = async () => {
+  //   // return axios.put(`${BASE_URL}/product/${tempProduct.id}`, {
+  //   //   data: formatProductData(tempProduct),
+  //   // });
+  //   return await updateProduct(tempProduct.id, formatProductData(tempProduct));
+  // };
   // 更新產品 - 包含前端驗證、錯誤訊息顯示
   const handleUpdateProduct = async () => {
     setIsScreenLoading(true);
@@ -148,16 +155,18 @@ function ProductsPage() {
 
     if (validationError) {
       setModalError(validationError);
+      setIsScreenLoading(false);
       return;
     }
 
     try {
       if (modalMode === 'create') {
-        await createProduct();
+        await createProduct(formatProductData(tempProduct));
       } else {
-        await updateProduct();
+        await updateProduct(tempProduct.id, formatProductData(tempProduct));
       }
       await getProducts(pageInfo.current_page || 1);
+
       setIsProductModalOpen(false); // 成功才關閉 Modal
     } catch (error) {
       console.error(error);
@@ -168,14 +177,17 @@ function ProductsPage() {
   };
 
   //刪除產品
-  const deleteProduct = async () => {
-    return axios.delete(`${BASE_URL}/product/${tempProduct.id}`);
-  };
+  // const deleteProduct = async () => {
+  //   // return axios.delete(`${BASE_URL}/product/${tempProduct.id}`);
+  //   return await deleteProduct(tempProduct.id);
+  // };
   const handleDeleteProduct = async () => {
     setIsScreenLoading(true);
+
     try {
-      await deleteProduct();
+      await deleteProduct(tempProduct.id);
       await getProducts(pageInfo.current_page || 1);
+
       setIsDeleteModalOpen(false);
     } catch (error) {
       console.error(error);
@@ -224,7 +236,7 @@ function ProductsPage() {
     const fetchProducts = async () => {
       setIsScreenLoading(true);
       try {
-        await getProducts(pageInfo.current_page || 1);
+        await getProducts(1);
       } catch (error) {
         console.error(error);
         setModalError(error.response?.data?.message || '取得產品列表失敗');
