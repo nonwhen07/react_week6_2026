@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+// import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import {
@@ -39,7 +39,9 @@ const CartPage = () => {
   const [loadingItems, setLoadingItems] = useState({}); // 用物件儲存各商品的 Loading 狀態
   const isQtyLoading = (id) => loadingItems[id] === 'qty';
   const isDeleteLoading = (id) => loadingItems[id] === 'delete';
-  const cartTotal = calculateCartTotal(carts);
+  // const cartTotal = calculateCartTotal(carts);
+  // useMemo 可用可不用，主要是給大型專案用來優化效能，避免不必要的重複計算，這裡示範用法，實際上對這個小專案幫助不大
+  const cartTotal = useMemo(() => calculateCartTotal(carts), [carts]);
 
   // 取得 cart.js 並將try catch交給呼叫的函式處理包含loading，
   // 讓 fetchCart  專注在抓資料，並且能在需要時重複使用
@@ -75,14 +77,16 @@ const CartPage = () => {
     try {
       await updateCartItem(cart_id, product_id, qty);
       await fetchCart();
+      setErrorMessage('');
     } catch (error) {
       console.error(error);
       setErrorMessage(error.response?.data?.message || '調整購物車數量失敗');
     } finally {
-      setLoadingItems((prev) => ({
-        ...prev,
-        [cart_id]: false,
-      }));
+      setLoadingItems((prev) => {
+        const newState = { ...prev };
+        delete newState[cart_id];
+        return newState;
+      });
     }
   };
   // 刪除購物車品項
@@ -97,14 +101,16 @@ const CartPage = () => {
       await deleteCartItem(cart_id);
       //成功後刷新購物車
       await fetchCart();
+      setErrorMessage('');
     } catch (error) {
       console.error(error);
       setErrorMessage(error.response?.data?.message || '刪除購物車品項失敗');
     } finally {
-      setLoadingItems((prev) => ({
-        ...prev,
-        [cart_id]: false,
-      }));
+      setLoadingItems((prev) => {
+        const newState = { ...prev };
+        delete newState[cart_id];
+        return newState;
+      });
     }
   };
   // 移除全部購物車品項
@@ -114,6 +120,7 @@ const CartPage = () => {
     try {
       await clearCart();
       await fetchCart();
+      setErrorMessage('');
       alert('刪除全部購物車成功');
     } catch (error) {
       console.error(error);
@@ -130,6 +137,7 @@ const CartPage = () => {
       await createOrder(orderData);
       // 由於前台沒有會員機制，所以是所有人共用cart，訂單送出成功後刷新購物車等待下一位客人
       await fetchCart();
+      setErrorMessage('');
       reset(); // 提交成功後重設表單
       alert('已送出訂單');
     } catch (error) {
@@ -159,10 +167,11 @@ const CartPage = () => {
 
   // 畫面渲染後初步載入購物車
   useEffect(() => {
-    const fetchCart = async () => {
+    const loadCart = async () => {
       setIsScreenLoading(true);
       try {
         await fetchCart();
+        setErrorMessage('');
       } catch (error) {
         console.error(error);
       } finally {
@@ -170,7 +179,7 @@ const CartPage = () => {
       }
     };
 
-    fetchCart();
+    loadCart();
   }, []);
 
   return (
@@ -214,11 +223,11 @@ const CartPage = () => {
                       <td>
                         <button
                           onClick={() => handleDeleteCartItem(cart.id)}
-                          disabled={loadingItems[cart.id] === 'delete'}
+                          disabled={isDeleteLoading(cart.id)}
                           type="button"
                           className="btn btn-outline-danger btn-sm"
                         >
-                          {loadingItems[cart.id] === 'delete' ? (
+                          {isDeleteLoading(cart.id) ? (
                             <BtnLoader size="sm" />
                           ) : (
                             <FaTrash size={18} />
@@ -241,11 +250,11 @@ const CartPage = () => {
                               onClick={() =>
                                 handleUpdateCartItem(cart.id, cart.product.id, cart.qty - 1)
                               }
-                              disabled={cart.qty === 1 || loadingItems[cart.id] === 'qty'}
+                              disabled={isQtyLoading(cart.id)}
                               type="button"
                               className="btn btn-outline-dark btn-sm"
                             >
-                              {loadingItems[cart.id] === 'qty' ? (
+                              {isQtyLoading(cart.id) ? (
                                 <BtnLoader aria-hidden="true" size="sm" />
                               ) : (
                                 <FaMinus size={20} />
@@ -262,11 +271,11 @@ const CartPage = () => {
                               onClick={() =>
                                 handleUpdateCartItem(cart.id, cart.product.id, cart.qty + 1)
                               }
-                              disabled={loadingItems[cart.id] === 'qty'}
+                              disabled={isQtyLoading(cart.id)}
                               type="button"
                               className="btn btn-outline-dark btn-sm"
                             >
-                              {loadingItems[cart.id] === 'qty' ? (
+                              {isQtyLoading(cart.id) ? (
                                 <BtnLoader aria-hidden="true" size="sm" />
                               ) : (
                                 <FaPlus size={20} />
