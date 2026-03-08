@@ -28,13 +28,18 @@
 
 import { createHashRouter } from 'react-router-dom';
 import FonterLayout from '@/layouts/FonterLayout';
+import AdminLayout from '@/layouts/AdminLayout';
+
+import NotFoundPage from '@/pages/NotFoundPage';
+
 import HomePage from '@/pages/front/HomePage';
 import ProductsPage from '@/pages/front/ProductsPage';
 import ProductDetailPage from '@/pages/front/ProductDetailPage';
 import CartPage from '@/pages/front/CartPage';
-// import LoginPage from '../pages/admin/LoginPage';
-// import DashboardPage from '../pages/admin/DashboardPage';
-import NotFoundPage from '@/pages/NotFoundPage';
+
+import LoginPage from '@/pages/admin/LoginPage';
+
+import DashboardPage from '@/pages/admin/DashboardPage';
 
 // 保留舊版寫法
 // const router = createHashRouter(
@@ -114,16 +119,31 @@ const routes = [
       },
     ],
   },
-  // {
-  //   // Login頁面
-  //   path: '/login',
-  //   element: <LoginPage />,
-  // },
-  // {
-  //   // Admin - Dashboard頁面
-  //   path: '/dashboard',
-  //   element: <DashboardPage />,
-  // },
+  {
+    // Login頁面
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    // Admin - Dashboard頁面
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true, // 首頁：/#/admin/
+        element: <DashboardPage />,
+      },
+      // {
+      //   // 產品列表
+      //   path: 'products',
+      //   element: <ProductsPage />,
+      // },
+      // {
+      //   path: 'cart',
+      //   element: <CartPage />,
+      // },
+    ],
+  },
   {
     // 404頁面
     path: '*',

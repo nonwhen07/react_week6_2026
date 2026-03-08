@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import NavBar from '@/components/front/NavBar';
-// import Footer from "@/components/front/Footer";
+import Footer from '@/components/front/Footer';
 import GoTop from '@/components/GoTop';
 
 export default function FonterLayout() {
@@ -11,7 +11,7 @@ export default function FonterLayout() {
         <Outlet />
       </main>
       <GoTop />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
