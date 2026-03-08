@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { Link } from 'react-router-dom';
+
+import { getProducts } from '@/services/productService';
+import { addCartItem } from '@/services/cartService';
 
 import PageLoader from '@/components/PageLoader';
 import BtnLoader from '@/components/BtnLoader';
@@ -9,9 +12,9 @@ import ProductImage from '@/components/ProductImage';
 import { FaCartPlus, FaSearch } from 'react-icons/fa';
 
 const ProductsPage = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const API_PATH = import.meta.env.VITE_API_PATH;
-  const BASE_URL = `${API_URL}/v2/api/${API_PATH}`;
+  // const API_URL = import.meta.env.VITE_API_URL;
+  // const API_PATH = import.meta.env.VITE_API_PATH;
+  // const BASE_URL = `${API_URL}/v2/api/${API_PATH}`;
 
   const [products, setProducts] = useState([]);
   // const [pageInfo, setPageInfo] = useState({});
@@ -23,27 +26,29 @@ const ProductsPage = () => {
   const [loadingItems, setLoadingItems] = useState({}); // 用物件儲存各商品的 Loading 狀態
 
   // 取得商品列表
-  const getProducts = async () => {
+  const fetchProducts = async () => {
+    setIsScreenLoading(true);
     try {
-      const res = await axios.get(`${BASE_URL}/products`);
-      setProducts(res.data.products);
+      // const res = await axios.get(`${BASE_URL}/products`);
+      const products = await getProducts();
+      setProducts(products);
     } catch (error) {
       console.error(error);
       setErrorMessage(error.response?.data?.message || '取得產品失敗');
+    } finally {
+      setIsScreenLoading(false);
     }
   };
 
   useEffect(() => {
-    setIsScreenLoading(true);
-
-    getProducts().finally(() => {
-      setIsScreenLoading(false);
-    });
+    fetchProducts();
   }, []);
 
   // 加入購物車
-  const addCartItem = async (product_id, qty = 1) => {
-    if (qty < 1) return;
+  const handleAddCartItem = async (product_id, qty = 1) => {
+    // setIsScreenLoading(true); // 加入購物車不需要整個畫面都 loading，改為按鈕局部 loading
+    if (loadingItems[product_id]) return; // 防止重複點擊
+    if (!product_id || qty < 1) return;
 
     setLoadingItems((prev) => ({
       ...prev,
@@ -51,12 +56,13 @@ const ProductsPage = () => {
     }));
 
     try {
-      await axios.post(`${BASE_URL}/cart`, {
-        data: {
-          product_id,
-          qty: Number(qty),
-        },
-      });
+      // await axios.post(`${BASE_URL}/cart`, {
+      //   data: {
+      //     product_id,
+      //     qty: Number(qty),
+      //   },
+      // });
+      await addCartItem(product_id, qty);
     } catch (error) {
       console.error(error);
       setErrorMessage(error.response?.data?.message || '加入購物車失敗');
@@ -106,7 +112,7 @@ const ProductsPage = () => {
                       {/* BtnLoader 参考範例 */}
                       <button
                         disabled={loadingItems[product.id]}
-                        onClick={() => addCartItem(product.id)}
+                        onClick={() => handleAddCartItem(product.id)}
                         type="button"
                         className="btn btn-outline-danger d-flex align-items-center gap-1"
                       >

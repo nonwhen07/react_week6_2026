@@ -1,10 +1,13 @@
-import axios from 'axios';
+import axios from '@/api/axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
-const API_PATH = import.meta.env.VITE_API_PATH;
+// 取得商品列表
+export const getProducts = async () => {
+  const res = await axios.get('/products');
+  return res.data.products;
+};
 
-const BASE_URL = `${API_URL}/v2/api/${API_PATH}`;
-
-export const getProducts = () => {
-  return axios.get(`${BASE_URL}/products`);
+// 取得商品詳細
+export const getProductDetail = async (productId) => {
+  const res = await axios.get(`/product/${productId}`);
+  return res.data.product;
 };

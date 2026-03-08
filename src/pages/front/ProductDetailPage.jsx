@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { useParams } from 'react-router-dom';
+
+import { getProductDetail } from '@/services/productService';
+import { addCartItem } from '@/services/cartService';
 
 import PageLoader from '@/components/PageLoader';
 import ProductImage from '@/components/front/product/ProductImage';
 import ProductInfo from '@/components/front/product/ProductInfo';
 
 const ProductDetailPage = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const API_PATH = import.meta.env.VITE_API_PATH;
-  const BASE_URL = `${API_URL}/v2/api/${API_PATH}`;
+  // const API_URL = import.meta.env.VITE_API_URL;
+  // const API_PATH = import.meta.env.VITE_API_PATH;
+  // const BASE_URL = `${API_URL}/v2/api/${API_PATH}`;
 
   // 根據路由的參數命名來取得該命名參數，ex path: 'product/:product_id'
   // 如果是多個參數ex path: 'product/:product_id/:typemode'，則取得方式為 const { product_id, typemode } = useParams();
@@ -27,13 +30,12 @@ const ProductDetailPage = () => {
 
   // 畫面渲染後初步載入產品細項
   useEffect(() => {
-    const getProductDetail = async () => {
+    const fetchProduct = async () => {
       setIsScreenLoading(true);
-
       try {
-        const res = await axios.get(`${BASE_URL}/product/${product_id}`);
-
-        setProduct(res.data.product);
+        // const res = await axios.get(`${BASE_URL}/product/${product_id}`);
+        const product = await getProductDetail(product_id);
+        setProduct(product);
         setQtySelect(1);
       } catch (error) {
         console.error(error);
@@ -43,22 +45,23 @@ const ProductDetailPage = () => {
       }
     };
 
-    getProductDetail();
-  }, [BASE_URL, product_id]);
+    fetchProduct();
+  }, [product_id]);
 
   //加入購物車
-  const addCartItem = async (productId, qty = 1) => {
+  const handleAddCartItem = async (productId, qty = 1) => {
     if (isLoading) return; // 防止重複點擊
     if (!productId || qty < 1) return;
     setIsLoading(true);
 
     try {
-      await axios.post(`${BASE_URL}/cart`, {
-        data: {
-          product_id: productId,
-          qty: Number(qty),
-        },
-      });
+      // await axios.post(`${BASE_URL}/cart`, {
+      //   data: {
+      //     product_id: productId,
+      //     qty: Number(qty),
+      //   },
+      // });
+      await addCartItem(productId, qty);
 
       setCartMessage('✓ 已加入購物車');
       setIsAdded(true); // 成功加入購物車後，設定isAdded為true
@@ -84,7 +87,9 @@ const ProductDetailPage = () => {
             </div>
           )}
           {/* 商品圖片 */}
-          <div className="col-md-6">{product && <ProductImage product={product ?? {}} />}</div>
+          <div className="col-md-6">
+            <ProductImage product={product} />
+          </div>
 
           {/* 商品資訊 */}
           <div className="col-md-6">
@@ -92,7 +97,7 @@ const ProductDetailPage = () => {
               product={product}
               qtySelect={qtySelect}
               setQtySelect={setQtySelect}
-              addCartItem={addCartItem}
+              addCartItem={handleAddCartItem}
               isLoading={isLoading}
               cartMessage={cartMessage}
               isAdded={isAdded}

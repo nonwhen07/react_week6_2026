@@ -40,6 +40,7 @@ import CartPage from '@/pages/front/CartPage';
 import LoginPage from '@/pages/admin/LoginPage';
 
 import DashboardPage from '@/pages/admin/DashboardPage';
+import AdminProductsPage from '@/pages/admin/ProductsPage';
 
 // 保留舊版寫法
 // const router = createHashRouter(
@@ -134,11 +135,11 @@ const routes = [
         path: '/dashboard',
         element: <DashboardPage />,
       },
-      // {
-      //   // 產品列表
-      //   path: 'products',
-      //   element: <ProductsPage />,
-      // },
+      {
+        // 產品列表
+        path: 'products', // 首頁：/#/admin/products
+        element: <AdminProductsPage />,
+      },
       // {
       //   path: 'cart',
       //   element: <CartPage />,
