@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '@/services/authService';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,10 +10,11 @@ const axiosAdmin = axios.create({
 
 // ⭐自動帶 token
 axiosAdmin.interceptors.request.use((config) => {
-  const token = document.cookie.replace(
-    /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
-    '$1',
-  );
+  // const token = document.cookie.replace(
+  //   /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
+  //   '$1',
+  // );
+  const token = getToken();
 
   if (token) {
     config.headers.Authorization = token;

@@ -68,7 +68,7 @@ const routes = [
         index: true,
         element: <DashboardPage />,
       },
-      { path: 'products', element: <AdminProductsPage /> },
+      { path: 'productlist', element: <AdminProductsPage /> },
     ],
   },
 

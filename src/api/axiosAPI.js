@@ -6,6 +6,7 @@
 // 3. Service可以做額外的資料處理，例如格式化、錯誤處理等，讓Page拿到乾淨的資料
 
 import axios from 'axios';
+import { getToken } from '@/services/authService';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -19,11 +20,12 @@ const axiosAPI = axios.create({
 
 // ⭐一樣帶 token
 axiosAPI.interceptors.request.use((config) => {
-  const token = document.cookie.replace(
-    /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
-    '$1',
-  );
+  // const token = document.cookie.replace(
+  //   /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
+  //   '$1',
+  // );
 
+  const token = getToken();
   if (token) {
     config.headers.Authorization = token;
   }
