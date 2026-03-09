@@ -7,4 +7,18 @@ const axiosAdmin = axios.create({
   timeout: 10000,
 });
 
+// ⭐自動帶 token
+axiosAdmin.interceptors.request.use((config) => {
+  const token = document.cookie.replace(
+    /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  );
+
+  if (token) {
+    config.headers.Authorization = token;
+  }
+
+  return config;
+});
+
 export default axiosAdmin;

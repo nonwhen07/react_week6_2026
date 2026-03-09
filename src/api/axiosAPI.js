@@ -12,12 +12,26 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 export const BASE_URL = `${API_URL}/v2/api/${API_PATH}`;
 
-const axiosInstance = axios.create({
+const axiosAPI = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
 });
 
-// 未來只需要 axiosInstance.get('/products')
+// ⭐一樣帶 token
+axiosAPI.interceptors.request.use((config) => {
+  const token = document.cookie.replace(
+    /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  );
+
+  if (token) {
+    config.headers.Authorization = token;
+  }
+
+  return config;
+});
+
+// 未來只需要 axiosAPI.get('/products')
 // 不用每頁都寫 axios.get(`${BASE_URL}/products`)，減少重複程式碼
 
-export default axiosInstance;
+export default axiosAPI;

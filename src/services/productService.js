@@ -1,22 +1,23 @@
-import axiosInstance from '@/api/axiosInstance';
+import axiosAPI from '@/api/axiosAPI';
+// import axiosAdmin from '@/api/axiosAdmin';
 
 // ===== Front API =====
 // 取得商品列表
 export const getProducts = async () => {
-  const res = await axiosInstance.get('/products');
+  const res = await axiosAPI.get('/products');
   return res.data.products;
 };
 
 // 取得商品詳細
 export const getProductDetail = async (productId) => {
-  const res = await axiosInstance.get(`/product/${productId}`);
+  const res = await axiosAPI.get(`/product/${productId}`);
   return res.data.product;
 };
 
 // ===== Admin API =====
 // 後台商品列表
 export const getAdminProducts = async (page = 1) => {
-  const { data } = await axiosInstance.get('/admin/products', {
+  const { data } = await axiosAPI.get('/admin/products', {
     params: { page },
   });
 
@@ -28,7 +29,7 @@ export const getAdminProducts = async (page = 1) => {
 
 // 新增商品
 export const createProduct = async (productData) => {
-  const res = await axiosInstance.post('/admin/product', {
+  const res = await axiosAPI.post('/admin/product', {
     data: productData,
   });
   return res.data;
@@ -36,7 +37,7 @@ export const createProduct = async (productData) => {
 
 // 更新商品
 export const updateProduct = async (productId, productData) => {
-  const res = await axiosInstance.put(`/admin/product/${productId}`, {
+  const res = await axiosAPI.put(`/admin/product/${productId}`, {
     data: productData,
   });
   return res.data;
@@ -44,6 +45,6 @@ export const updateProduct = async (productId, productData) => {
 
 // 刪除商品
 export const deleteProduct = async (productId) => {
-  const res = await axiosInstance.delete(`/admin/product/${productId}`);
+  const res = await axiosAPI.delete(`/admin/product/${productId}`);
   return res.data;
 };
