@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
 const routes = [
-  { path: '/', name: '後台首頁' },
-  { path: '/products', name: '產品列表' },
-  { path: '/cart', name: '購物車' },
+  { path: '/admin', name: '後台首頁' },
+  { path: '/admin/products', name: '產品列表' },
+  // { path: '/admin/cart', name: '購物車' },
 ];
 
-const FrontNavBar = () => {
+const BackNavBar = () => {
   return (
     <>
       <nav className="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
@@ -26,4 +26,4 @@ const FrontNavBar = () => {
   );
 };
 
-export default FrontNavBar;
+export default BackNavBar;

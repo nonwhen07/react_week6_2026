@@ -1,6 +1,6 @@
 // import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 // import { Modal } from 'bootstrap';
 import { useState, useEffect } from 'react';
 // import LoginPage from './pages/admin/LoginPage';
@@ -10,7 +10,7 @@ import { checkAuth } from '@/services/authService';
 
 import PageLoader from '@/components/PageLoader';
 
-function DashboardPage() {
+const DashboardPage = () => {
   // 初始化 navigate
   const navigate = useNavigate();
 
@@ -22,18 +22,18 @@ function DashboardPage() {
   useEffect(() => {
     const initAuth = async () => {
       setIsScreenLoading(true);
-      const token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
-        '$1',
-      );
+      // const token = document.cookie.replace(
+      //   /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
+      //   '$1',
+      // );
 
-      if (!token) return;
+      // if (!token) return;
 
-      axios.defaults.headers.common['Authorization'] = token;
+      // axios.defaults.headers.common['Authorization'] = token;
 
       try {
         // await axios.post(`${API_URL}/v2/api/user/check`);
-        await checkAuth;
+        await checkAuth();
         alert('登入成功，將導向後台首頁');
         // setIsAuth(true);
       } catch {
@@ -58,6 +58,6 @@ function DashboardPage() {
       <PageLoader show={isScreenLoading} zIndex={2000} />
     </>
   );
-}
+};
 
 export default DashboardPage;

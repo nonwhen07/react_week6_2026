@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getProductDetail } from '@/services/productService';
-import { addCartItem } from '@/services/cartService';
+import { updateCartItem } from '@/services/cartService';
 
 import PageLoader from '@/components/PageLoader';
 import ProductImage from '@/components/front/product/ProductImage';
@@ -61,7 +61,7 @@ const ProductDetailPage = () => {
       //     qty: Number(qty),
       //   },
       // });
-      await addCartItem(productId, qty);
+      await updateCartItem(productId, qty);
 
       setCartMessage('✓ 已加入購物車');
       setIsAdded(true); // 成功加入購物車後，設定isAdded為true

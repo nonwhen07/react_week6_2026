@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { getProducts } from '@/services/productService';
-import { addCartItem } from '@/services/cartService';
+import { updateCartItem } from '@/services/cartService';
 
 import PageLoader from '@/components/PageLoader';
 import BtnLoader from '@/components/BtnLoader';
@@ -62,7 +62,7 @@ const ProductsPage = () => {
       //     qty: Number(qty),
       //   },
       // });
-      await addCartItem(product_id, qty);
+      await updateCartItem(product_id, qty);
     } catch (error) {
       console.error(error);
       setErrorMessage(error.response?.data?.message || '加入購物車失敗');

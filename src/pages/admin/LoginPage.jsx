@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 // import PropTypes from 'prop-types';
 
 import { login } from '@/services/authService';
@@ -12,7 +12,7 @@ const LoginPage = () => {
   // 初始化 navigate
   const navigate = useNavigate();
   // 環境變數
-  const API_URL = import.meta.env.VITE_API_URL;
+  // const API_URL = import.meta.env.VITE_API_URL;
   const [account, setAccount] = useState({
     username: 'example@test.com',
     password: 'example',
@@ -43,10 +43,10 @@ const LoginPage = () => {
         expired,
       ).toUTCString()}`;
 
-      axios.defaults.headers.common['Authorization'] = token;
+      // axios.defaults.headers.common['Authorization'] = token;
 
       alert('登入成功，將導向後台首頁');
-      navigate('/admin/dashboard');
+      navigate('/admin');
     } catch (error) {
       setErrorMessage(error.response?.data?.message || '登入失敗');
     } finally {
