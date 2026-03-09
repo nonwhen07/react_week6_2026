@@ -6,7 +6,7 @@
 // 3. Service可以做額外的資料處理，例如格式化、錯誤處理等，讓Page拿到乾淨的資料
 
 import axios from 'axios';
-import { getToken } from '@/services/authService';
+import { getToken } from '@/utils/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;

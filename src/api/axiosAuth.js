@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { getToken } from '@/services/authService';
+import { getToken } from '@/utils/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const axiosAdmin = axios.create({
+const axiosAuth = axios.create({
   baseURL: `${API_URL}/v2`,
   timeout: 10000,
 });
 
 // ⭐自動帶 token
-axiosAdmin.interceptors.request.use((config) => {
+axiosAuth.interceptors.request.use((config) => {
   // const token = document.cookie.replace(
   //   /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
   //   '$1',
@@ -23,4 +23,4 @@ axiosAdmin.interceptors.request.use((config) => {
   return config;
 });
 
-export default axiosAdmin;
+export default axiosAuth;
