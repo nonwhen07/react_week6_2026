@@ -52,12 +52,13 @@ const routes = [
       { path: 'products', element: <ProductsPage /> },
       { path: 'product/:product_id', element: <ProductDetailPage /> },
       { path: 'cart', element: <CartPage /> },
+      { path: 'login', element: <LoginPage /> },
     ],
   },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
+  // {
+  //   path: '/login',
+  //   element: <LoginPage />,
+  // },
 
   {
     path: '/admin',

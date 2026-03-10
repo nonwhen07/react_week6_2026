@@ -27,7 +27,6 @@ const DashboardPage = () => {
       try {
         // await axios.post(`${API_URL}/v2/api/user/check`);
         await checkAuth();
-
         // setIsAuth(true);
       } catch {
         // setIsAuth(false);
