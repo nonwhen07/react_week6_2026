@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 // import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 import {
   getCart,
@@ -79,8 +80,9 @@ const CartPage = () => {
       await fetchCart();
       setErrorMessage('');
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || '調整購物車數量失敗');
+      // console.error(error);
+      // setErrorMessage(error.response?.data?.message || '調整購物車數量失敗');
+      handleApiError(error, setErrorMessage, '調整購物車數量失敗');
     } finally {
       setLoadingItems((prev) => {
         const newState = { ...prev };
@@ -103,8 +105,9 @@ const CartPage = () => {
       await fetchCart();
       setErrorMessage('');
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || '刪除購物車品項失敗');
+      // console.error(error);
+      // setErrorMessage(error.response?.data?.message || '刪除購物車品項失敗');
+      handleApiError(error, setErrorMessage, '刪除購物車品項失敗');
     } finally {
       setLoadingItems((prev) => {
         const newState = { ...prev };
@@ -123,8 +126,9 @@ const CartPage = () => {
       setErrorMessage('');
       alert('刪除全部購物車成功');
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || '刪除全部購物車失敗');
+      // console.error(error);
+      // setErrorMessage(error.response?.data?.message || '刪除全部購物車失敗');
+      handleApiError(error, setErrorMessage, '刪除全部購物車失敗');
     } finally {
       setIsScreenLoading(false);
     }
@@ -141,8 +145,9 @@ const CartPage = () => {
       reset(); // 提交成功後重設表單
       alert('已送出訂單');
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || '訂單送出失敗');
+      // console.error(error);
+      // setErrorMessage(error.response?.data?.message || '訂單送出失敗');
+      handleApiError(error, setErrorMessage, '訂單送出失敗');
     } finally {
       setIsScreenLoading(false);
     }

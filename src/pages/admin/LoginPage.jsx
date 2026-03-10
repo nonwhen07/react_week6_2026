@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
 import { login } from '@/services/authService';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 import PageLoader from '@/components/PageLoader';
 // import BtnLoader from '@/components/BtnLoader';
@@ -48,7 +49,8 @@ const LoginPage = () => {
       alert('登入成功，將導向後台首頁');
       navigate('/admin');
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || '登入失敗');
+      // setErrorMessage(error.response?.data?.message || '登入失敗');
+      handleApiError(error, setErrorMessage, '登入失敗');
     } finally {
       setIsScreenLoading(false);
     }

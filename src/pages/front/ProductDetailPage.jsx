@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { getProductDetail } from '@/services/productService';
 import { updateCartItem } from '@/services/cartService';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 import PageLoader from '@/components/PageLoader';
 import ProductImage from '@/components/front/product/ProductImage';
@@ -38,8 +39,9 @@ const ProductDetailPage = () => {
         setProduct(product);
         setQtySelect(1);
       } catch (error) {
-        console.error(error);
-        setErrorMessage(error.response?.data?.message || '取得產品細項失敗');
+        // console.error(error);
+        // setErrorMessage(error.response?.data?.message || '取得產品細項失敗');
+        handleApiError(error, setErrorMessage, '取得產品細項失敗');
       } finally {
         setIsScreenLoading(false);
       }
@@ -70,8 +72,9 @@ const ProductDetailPage = () => {
         setIsAdded(false);
       }, 2000);
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || '加入購物車失敗');
+      // console.error(error);
+      // setErrorMessage(error.response?.data?.message || '加入購物車失敗');
+      handleApiError(error, setErrorMessage, '加入購物車失敗');
     } finally {
       setIsLoading(false);
     }

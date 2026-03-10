@@ -7,6 +7,7 @@ import {
   updateProduct,
   deleteProduct,
 } from '@/services/productService';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 import Pagination from '@/components/Pagination';
 import ProductModal from '@/components/admin/ProductModal';
@@ -71,8 +72,9 @@ function ProductsPage() {
       setIsScreenLoading(true);
       await getProducts(page);
     } catch (error) {
-      console.error(error);
-      setModalError(error.response?.data?.message || '取得產品列表分頁失敗');
+      // console.error(error);
+      // setModalError(error.response?.data?.message || '取得產品列表分頁失敗');
+      handleApiError(error, setModalError, '取得產品列表分頁失敗');
     } finally {
       setIsScreenLoading(false);
     }
@@ -169,8 +171,9 @@ function ProductsPage() {
 
       setIsProductModalOpen(false); // 成功才關閉 Modal
     } catch (error) {
-      console.error(error);
-      setModalError(error.response?.data?.message || '操作失敗');
+      // console.error(error);
+      // setModalError(error.response?.data?.message || '操作失敗');
+      handleApiError(error, setModalError, '操作失敗');
     } finally {
       setIsScreenLoading(false);
     }
@@ -238,8 +241,9 @@ function ProductsPage() {
       try {
         await getProducts(1);
       } catch (error) {
-        console.error(error);
-        setModalError(error.response?.data?.message || '取得產品列表失敗');
+        // console.error(error);
+        // setModalError(error.response?.data?.message || '取得產品列表失敗');
+        handleApiError(error, setModalError, '取得產品列表失敗');
       } finally {
         setIsScreenLoading(false);
       }

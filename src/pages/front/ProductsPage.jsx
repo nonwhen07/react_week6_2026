@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { getProducts } from '@/services/productService';
 import { updateCartItem } from '@/services/cartService';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 import PageLoader from '@/components/PageLoader';
 import BtnLoader from '@/components/BtnLoader';
@@ -33,8 +34,9 @@ const ProductsPage = () => {
       const products = await getProducts();
       setProducts(products);
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || '取得產品失敗');
+      // console.error(error);
+      // setErrorMessage(error.response?.data?.message || '取得產品失敗');
+      handleApiError(error, setErrorMessage, '取得產品失敗');
     } finally {
       setIsScreenLoading(false);
     }
@@ -56,16 +58,11 @@ const ProductsPage = () => {
     }));
 
     try {
-      // await axios.post(`${BASE_URL}/cart`, {
-      //   data: {
-      //     product_id,
-      //     qty: Number(qty),
-      //   },
-      // });
       await updateCartItem(product_id, qty);
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || '加入購物車失敗');
+      // console.error(error);
+      // setErrorMessage(error.response?.data?.message || '加入購物車失敗');
+      handleApiError(error, setErrorMessage, '加入購物車失敗');
     } finally {
       setLoadingItems((prev) => ({
         ...prev,
