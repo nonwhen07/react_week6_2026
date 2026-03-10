@@ -81,6 +81,7 @@ const routes = [
 ];
 
 const router = createHashRouter(routes, {
-  basename: import.meta.env.PROD ? '/react_week6_2026/' : '/', // GH Pages 必填，與 vite base 一致（不加結尾 /）
+  // basename: import.meta.env.PROD ? '/react_week6_2026/' : '/', // GH Pages 必填，與 vite base 一致（不加結尾 /） => 這段有點問題，先暫時註解
+  basename: import.meta.env.PROD === 'production' ? '/react_week5_2026/' : '/',
 });
 export default router;
