@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 // import ProductsPage from './pages/ProductsPage';
 
 import { checkAuth } from '@/services/authService';
+import { showError } from '@/utils/handleApiSuccess';
 
 import PageLoader from '@/components/PageLoader';
 
@@ -22,23 +23,16 @@ const DashboardPage = () => {
   useEffect(() => {
     const initAuth = async () => {
       setIsScreenLoading(true);
-      // const token = document.cookie.replace(
-      //   /(?:(?:^|.*;\s*)hexToken_week6\s*=\s*([^;]*).*$)|^.*$/,
-      //   '$1',
-      // );
-
-      // if (!token) return;
-
-      // axios.defaults.headers.common['Authorization'] = token;
 
       try {
         // await axios.post(`${API_URL}/v2/api/user/check`);
         await checkAuth();
-        alert('登入成功，將導向後台首頁');
+
         // setIsAuth(true);
       } catch {
         // setIsAuth(false);
-        alert('請先登入，將導向登入頁面');
+        // alert('請先登入，將導向登入頁面');
+        showError('請先登入，將導向登入頁面');
         navigate('/login'); // **確認沒有登入就跳轉到 LoginPage**
       } finally {
         setIsScreenLoading(false);
@@ -46,7 +40,7 @@ const DashboardPage = () => {
     };
 
     initAuth();
-  }, []);
+  }, [navigate]);
 
   // return <>{isAuth ? <ProductsPage /> : <LoginPage setIsAuth={setIsAuth} />}</>;
   return (

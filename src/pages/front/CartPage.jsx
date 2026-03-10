@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 // import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { handleApiError } from '@/utils/apiErrorHandler';
+import { showSuccess } from '@/utils/handleApiSuccess';
 
 import {
   getCart,
@@ -57,16 +58,14 @@ const CartPage = () => {
     // setIsScreenLoading(true); 所以這段刪掉，
     // 改為下面的 loadingItems 狀態來控制按鈕的 loading 狀態
 
-    // // 如果 qty 小於 1，直接返回不做任何處理 作法A
-    // if (qty < 1) {
-    //   console.warn('qty 不能小於 1');
-    //   setErrorMessage('qty 不能小於 1');
-    //   setIsScreenLoading(false);
-    //   return;
-    // }
+    // 如果 qty 小於 1，直接返回不做任何處理 作法A
     // 如果 qty 小於 1，直接刪掉cart item 作法B
     if (qty < 1) {
-      handleDeleteCartItem(cart_id);
+      const confirmDelete = window.confirm('商品數量為 0 會直接刪除購物車品項，確定要刪除嗎？');
+
+      if (!confirmDelete) return;
+
+      await handleDeleteCartItem(cart_id);
       return;
     }
 
@@ -124,7 +123,8 @@ const CartPage = () => {
       await clearCart();
       await fetchCart();
       setErrorMessage('');
-      alert('刪除全部購物車成功');
+      // alert('刪除全部購物車成功');
+      showSuccess('刪除全部購物車成功');
     } catch (error) {
       // console.error(error);
       // setErrorMessage(error.response?.data?.message || '刪除全部購物車失敗');
@@ -143,7 +143,8 @@ const CartPage = () => {
       await fetchCart();
       setErrorMessage('');
       reset(); // 提交成功後重設表單
-      alert('已送出訂單');
+      // alert('已送出訂單');
+      showSuccess('已送出訂單');
     } catch (error) {
       // console.error(error);
       // setErrorMessage(error.response?.data?.message || '訂單送出失敗');

@@ -4,6 +4,18 @@
 // 1. Page面只專注在畫面邏輯，Service專注在資料邏輯，Axios專注在API設定，分工清楚
 // 2. 如果API URL改變，只需要修改axios.js，不用每個Page都改
 // 3. Service可以做額外的資料處理，例如格式化、錯誤處理等，讓Page拿到乾淨的資料
+// 網站其實只有三種 API：
+
+// 1️⃣ 不需要登入
+// 2️⃣ 使用者登入
+// 3️⃣ 管理員登入
+// 對應就是：
+
+// axiosPublic
+// axiosUser
+// axiosAdmin
+
+// 這邊設計偏向axiosPublic
 
 import axios from 'axios';
 import { getToken } from '@/utils/auth';

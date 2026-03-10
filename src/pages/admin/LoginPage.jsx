@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { login } from '@/services/authService';
 import { handleApiError } from '@/utils/apiErrorHandler';
+import { showSuccess } from '@/utils/handleApiSuccess';
 
 import PageLoader from '@/components/PageLoader';
 // import BtnLoader from '@/components/BtnLoader';
@@ -46,7 +47,8 @@ const LoginPage = () => {
 
       // axios.defaults.headers.common['Authorization'] = token;
 
-      alert('登入成功，將導向後台首頁');
+      // alert('登入成功，將導向後台首頁');
+      showSuccess('請先登入，將導向登入頁面');
       navigate('/admin');
     } catch (error) {
       // setErrorMessage(error.response?.data?.message || '登入失敗');
